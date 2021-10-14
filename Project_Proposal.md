@@ -52,4 +52,4 @@ In terms of the collaboration plan, it will be relatively flexible for our group
 # 6. Risks
 The beggest concer I have toward the project is insufficient knowledge. We believe that this project is beyond our capability at the current stage. But, we understand that we are a group of students that always challenges ourselves and who would love to put in extra effort to do our own research. But we believe that we are still going to feel lost some of the times, facing the situation that we do not know what to seach about or what kind of functions or library we would need. At that time, we would definitly rely on the help of the professor to point a direction for us.
 # 7. Additional Course Content
-We believe that the UI design, and the design of user interactive graphics will be especially helpful for us.
+We believe that the UI design, and the design of user interactive graphics will be especially helpful for us. Also, we would love to go through some game display and interface design topics in class.
