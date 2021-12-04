@@ -182,3 +182,4 @@ class Virus():
 
 Virus(COVID19_PARAMS)
 plt.show
+
