@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang=
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MBTA Finder</title>
+  </head>
+  <body>
+    <h1>MBTA Finder</h1>
+    <p>
+        Hello my dear user
+    </p>
+    <form method="POST" name="stop">
+      {% if error %}
+      <p style="color:red">The address inputed is not valid, please try to enter it again</p>
+      {% endif %}
+      <p>
+        Please enter the number of people smaller than 10000:
+      </p>
+      <p>
+        <input type="text" size="4" name="a" />
+      </p>
+      <p>
+        please enter the the number of only maked but not vaccinated here:
+      </p>
+      <p>
+        <input type="text" size="4" name="b" />
+      </p>
+      <p>
+        please enter the the number of only Vaccinated but not masked here:
+      </p>
+      <p>
+        <input type="text" size="4" name="c" />
+      </p>
+      <p>
+        please enter the the number of both Vaccinated and masked here:
+      </p>
+      <p>
+        <input type="text" size="4" name="d" />
+      </p>
+      <p>
+        please enter the number of days of the simulation:
+      </p>
+      <p>
+        <input type="text" size="4" name="e" />
+      </p>
+      <p>
+        <input type="submit" value="Find" />
+      </p>
+    </form>
+  </body>
+</html>
