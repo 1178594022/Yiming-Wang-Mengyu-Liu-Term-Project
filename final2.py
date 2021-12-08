@@ -9,9 +9,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib
 import seaborn
+from matplotlib.animation import FuncAnimation
+from matplotlib.animation import PillowWriter  
 
-df = pd.DataFrame()
-def virus(np,nom,nov,nob,d):
+def virus_plot(np,nom,nov,nob,d):
     # number_of_people = int(input('please enter the number of people smaller than 10000>>>'))
     # number_of_only_masked = int(input('please enter the the number of only maked but not vaccinated herer >>>'))
     # number_of_only_vaccinated = int(input('please enter the the number of only Vaccinated but not masked herer >>>'))
@@ -164,20 +165,12 @@ def virus(np,nom,nov,nob,d):
         for i in l:
             if i.inffected == True and i.masked == True and i.vaccinated == True:
                 count5 = count5 + 1
-        result += f'-----------------------------------------Day {num1 + 1}-----------------------------------------\n'
-        result += f'{count1} number of people inffected out of {number_of_people} people\n'
-        result += f'{count2-1} people out of the {number_of_unprotected} unprotected people are inffected\n'
-        result += f'{count3} people out of the {number_of_only_masked} masked but not vaccinated people are inffected\n'
-        result += f'{count4} people out of the {number_of_only_vaccinated} vaccinated but not masked people are inffected\n'
-        result += f'{count5} people out of the {number_of_both} both masked and vaccinated people are inffected\n'
-        result += f'\n'
         day.append(num1+1)
         people_inffected.append(count1)
         unprotected_inffected.append(count2-1)
         only_masked_inffected.append(count3)
         only_vaccinated_inffected.append(count4)
         masked_and_vaccinated_inffected.append(count5)
-    return result
 
     # plt.plot(day, people_inffected, label = "Total Inffection")
     # plt.plot(day, unprotected_inffected, label = "Unprotected People Inffected")
@@ -194,14 +187,35 @@ def virus(np,nom,nov,nob,d):
             'Only_Vaccinated_people_inffection':only_vaccinated_inffected,
             'Both_Masked_and_Vaccinated_People_inffection':masked_and_vaccinated_inffected}
     df = pd.DataFrame(data)
-    print(pd)
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=day,y=people_inffected,mode ='lines', name = 'Total Inffection'))
-    fig.add_trace(go.Scatter(x=day,y=unprotected_inffected,mode ='lines', name = 'Unprotected people inffection'))
-    fig.add_trace(go.Scatter(x=day,y=only_masked_inffected,mode ='lines', name = 'Only Masked people inffection'))
-    fig.add_trace(go.Scatter(x=day,y=only_vaccinated_inffected,mode ='lines', name = 'Only Vaccinated people inffection'))
-    fig.add_trace(go.Scatter(x=day,y=masked_and_vaccinated_inffected,mode ='lines', name = 'Both Masked and Vaccinated People inffection'))
-    fig.show()
+    fig, axes = plt.subplots(nrows = 1, ncols = 1, figsize = (15,5))
+    axes.set_ylim(0, number_of_people)
+    axes.set_xlim(0, days+2)
+    plt.style.use("ggplot")
+    x,y1,y2,y3,y4,y5 = [], [], [], [], [], []
+    def animate(i):
+        x.append(data['Day'][int(i)])
+        y1.append((data['Total_Inffection'][i]))
+        y2.append((data['Unprotected_people_inffection'][i]))
+        y3.append((data['Only_Masked_people_inffection'][i]))
+        y4.append((data['Only_Vaccinated_people_inffection'][i]))
+        y5.append((data['Both_Masked_and_Vaccinated_People_inffection'][i]))
+        axes.plot(x,y1, color="red")
+        axes.plot(x,y2, color="gray")
+        axes.plot(x,y3, color="blue")
+        axes.plot(x,y4, color="yellow")
+        axes.plot(x,y5, color="green")
+    ani = FuncAnimation(fig=fig, func=animate)
+    writergif = PillowWriter(fps=30)
+    ani.save('movie.gif',writer=writergif)
+    
+    
+    # fig = go.Figure()
+    # fig.add_trace(go.Scatter(x=day,y=people_inffected,mode ='lines', name = 'Total Inffection'))
+    # fig.add_trace(go.Scatter(x=day,y=unprotected_inffected,mode ='lines', name = 'Unprotected people inffection'))
+    # fig.add_trace(go.Scatter(x=day,y=only_masked_inffected,mode ='lines', name = 'Only Masked people inffection'))
+    # fig.add_trace(go.Scatter(x=day,y=only_vaccinated_inffected,mode ='lines', name = 'Only Vaccinated people inffection'))
+    # fig.add_trace(go.Scatter(x=day,y=masked_and_vaccinated_inffected,mode ='lines', name = 'Both Masked and Vaccinated People inffection'))
+    # fig.show()
 
     # import dash
     # import dash_core_components as dcc

@@ -1,9 +1,16 @@
 from flask import Flask, render_template, request
+from numpy import arctan2
 
 from final import virus
+from final2 import virus_plot
 from flask import escape
 
 app = Flask(__name__)
+a1 = 0
+a2 = 0
+a3 = 0
+a4 = 0
+a5 = 0
 
 
 
@@ -12,13 +19,18 @@ app = Flask(__name__)
 #define the function calculate to find the tupple of the closest station information
 def calculate():
     if request.method == "POST":    #use the request method post
-        a = str(request.form["a"])
-        b = str(request.form["b"])
-        c = str(request.form["c"])
-        d = str(request.form["d"]) 
-        e = str(request.form["e"]) #set veriable a as the input from the user
+        a = int(request.form["a"])
+        b = int(request.form["b"])
+        c = int(request.form["c"])
+        d = int(request.form["d"]) 
+        e = int(request.form["e"]) #set veriable a as the input from the user
+        a1 = int(a)
+        a2 = int(b)
+        a3 = int(c)
+        a4 = int(d)
+        a5 = int(e)
+        
         roots = virus(a,b,c,d,e)   #set root as the veriable records result returned from find_stop_near 
-
         if roots:
             return render_template(
                 "stop_result.html", #use the templet of HTML code in the templet folder named stop_form
@@ -30,6 +42,6 @@ def calculate():
             return render_template("stop_form.html", error=True) 
     return render_template("stop_form.html", error=None) # the result returns by the format of stop_form.html
 
-
+virus_plot(a1,a2,a3,a4,a5)
 if __name__ == "__main__":
     app.run(debug=True)
