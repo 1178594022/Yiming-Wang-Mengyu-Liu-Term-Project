@@ -12,6 +12,7 @@ import seaborn
 from matplotlib.animation import FuncAnimation
 from matplotlib.animation import PillowWriter  
 import ffmpeg
+import matplotlib.animation as animation
 
 def virus_plot(np,nom,nov,nob,d):
     # number_of_people = int(input('please enter the number of people smaller than 10000>>>'))
@@ -205,10 +206,10 @@ def virus_plot(np,nom,nov,nob,d):
         axes.plot(x,y4, color="yellow")
         axes.plot(x,y5, color="green")
     ani = FuncAnimation(fig=fig, func=animate)
-    # writergif = PillowWriter(fps=30)
+    writergif = PillowWriter(fps=30)
     # ani.save('movie.gif',writer=writergif)
     try:
-        ani.save("movie.mp4",writer=FFwriter(fps = 30))
+        ani.save("templates/movie.gif",writer=writergif)
     except Exception:
         pass
     
@@ -232,3 +233,4 @@ def virus_plot(np,nom,nov,nob,d):
     # ])
 
     # app.run_server(debug=True, use_reloader=False)  # Turn off reloader if inside Jupyter
+# virus_plot(100,12,12,80,10)
