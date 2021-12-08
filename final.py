@@ -7,14 +7,22 @@ from plotly.graph_objs import layout
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import matplotlib
+import seaborn
 
-def virus(number_of_people,number_of_only_masked,number_of_only_vaccinated,number_of_both,days):
+
+def virus(np,nom,nov,nob,d):
     # number_of_people = int(input('please enter the number of people smaller than 10000>>>'))
     # number_of_only_masked = int(input('please enter the the number of only maked but not vaccinated herer >>>'))
     # number_of_only_vaccinated = int(input('please enter the the number of only Vaccinated but not masked herer >>>'))
     # number_of_both = int(input('please enter the the number of both Vaccinated and masked herer >>>'))
     # days = int(input('please enter the number of days of the simulation>>>'))
-    number_of_unprotected = number_of_people-number_of_only_masked - number_of_only_vaccinated - number_of_both
+    number_of_people = int(np)
+    number_of_only_masked = int(nom)
+    number_of_only_vaccinated = int(nov)
+    number_of_both = int(nob)
+    days = int(d)
+    number_of_unprotected = int(number_of_people)-int(number_of_only_masked) - int(number_of_only_vaccinated) - int(number_of_both)
     day = []
     people_inffected = []
     unprotected_inffected = []
@@ -52,29 +60,30 @@ def virus(number_of_people,number_of_only_masked,number_of_only_vaccinated,numbe
     for i in list_of_only_masked:
         i = Virus(i,True,False,False)
         l.append(i)
-        print(i)
+        # print(i)
     for i in list_of_only_vaccinated:
         i = Virus(i,False,True,False)
         l.append(i)
-        print(i)
+        # print(i)
     for i in list_of_both:
         i = Virus(i,True,True,False)
         l.append(i)
-        print(i)
+        # print(i)
     for i in list_of_unprotected:
         i = Virus(i,False,False,False)
         l.append(i)
-        print(i)
+        # print(i)
 
     #put in 1 person who is affected and unprotected
     patient = Virus('original_inffection', False, False,True)
     l.append(patient)
-    print(patient.inffected)
+    # print(patient.inffected)
 
     # shuffle the list to decide on go out sequence
     random.shuffle(l)
 
     # Start the simulation
+    result = ''
     for num1 in range(days):
         for i in l:
             for num2 in range(num_people_meet):
@@ -140,7 +149,6 @@ def virus(number_of_people,number_of_only_masked,number_of_only_vaccinated,numbe
         count3 = 0
         count4 = 0
         count5 = 0
-        result = ''
         for i in l:
             if i.inffected == True:
                 count1 = count1 + 1
@@ -206,3 +214,4 @@ def virus(number_of_people,number_of_only_masked,number_of_only_vaccinated,numbe
 
     # app.run_server(debug=True, use_reloader=False)  # Turn off reloader if inside Jupyter
 
+print(virus(1000,123,123,123,123))

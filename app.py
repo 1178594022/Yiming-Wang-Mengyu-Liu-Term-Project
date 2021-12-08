@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 
 from final import virus
-
+from flask import escape
 
 app = Flask(__name__)
 
@@ -23,7 +23,8 @@ def calculate():
             return render_template(
                 "stop_result.html", #use the templet of HTML code in the templet folder named stop_form
                 e=e,
-                root_1=virus(a,b,c,d,e),   # root_1 record the station name
+                root_1=str(escape(virus(a,b,c,d,e))).replace('\n', '<br/>'),   # root_1 record the station name
+                
             )
         else:
             return render_template("stop_form.html", error=True) 
