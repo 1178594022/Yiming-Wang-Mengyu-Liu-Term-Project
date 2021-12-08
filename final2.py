@@ -84,7 +84,6 @@ def virus_plot(np,nom,nov,nob,d):
     random.shuffle(l)
 
     # Start the simulation
-    result = ''
     for num1 in range(days):
         for i in l:
             for num2 in range(num_people_meet):
@@ -192,8 +191,8 @@ def virus_plot(np,nom,nov,nob,d):
     axes.set_xlim(0, days+2)
     plt.style.use("ggplot")
     x,y1,y2,y3,y4,y5 = [], [], [], [], [], []
-    def animate(i):
-        x.append(data['Day'][int(i)])
+    def animate():
+        x.append(data['Day'][i])
         y1.append((data['Total_Inffection'][i]))
         y2.append((data['Unprotected_people_inffection'][i]))
         y3.append((data['Only_Masked_people_inffection'][i]))
@@ -228,3 +227,4 @@ def virus_plot(np,nom,nov,nob,d):
 
     # app.run_server(debug=True, use_reloader=False)  # Turn off reloader if inside Jupyter
 
+virus_plot(100,12,12,21,10)

@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 from numpy import arctan2
 
 from final import virus
-from final2 import virus_plot
 from flask import escape
 
 app = Flask(__name__)
@@ -42,6 +41,5 @@ def calculate():
             return render_template("stop_form.html", error=True) 
     return render_template("stop_form.html", error=None) # the result returns by the format of stop_form.html
 
-virus_plot(a1,a2,a3,a4,a5)
 if __name__ == "__main__":
     app.run(debug=True)
