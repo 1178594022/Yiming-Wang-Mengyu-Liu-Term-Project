@@ -191,7 +191,7 @@ def virus_plot(np,nom,nov,nob,d):
     axes.set_xlim(0, days+2)
     plt.style.use("ggplot")
     x,y1,y2,y3,y4,y5 = [], [], [], [], [], []
-    def animate():
+    def animate(i):
         x.append(data['Day'][i])
         y1.append((data['Total_Inffection'][i]))
         y2.append((data['Unprotected_people_inffection'][i]))
@@ -204,8 +204,11 @@ def virus_plot(np,nom,nov,nob,d):
         axes.plot(x,y4, color="yellow")
         axes.plot(x,y5, color="green")
     ani = FuncAnimation(fig=fig, func=animate)
-    writergif = PillowWriter(fps=30)
-    ani.save('movie.gif',writer=writergif)
+    # writergif = PillowWriter(fps=30)
+    # ani.save('movie.gif',writer=writergif)
+    ani.save("movie.gif",writer=PillowWriter(fps = 30))
+    plt.show()
+    
     
     
     # fig = go.Figure()
@@ -227,4 +230,4 @@ def virus_plot(np,nom,nov,nob,d):
 
     # app.run_server(debug=True, use_reloader=False)  # Turn off reloader if inside Jupyter
 
-virus_plot(100,12,12,21,10)
+virus_plot(1000,123,123,700,10)
