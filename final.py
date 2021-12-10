@@ -11,52 +11,54 @@ import matplotlib
 import seaborn
 
 df = pd.DataFrame()
-def virus(np,nom,nov,nob,d):
+def virus_plot(np,nom,nov,nob,d):
     # number_of_people = int(input('please enter the number of people smaller than 10000>>>'))
     # number_of_only_masked = int(input('please enter the the number of only maked but not vaccinated herer >>>'))
     # number_of_only_vaccinated = int(input('please enter the the number of only Vaccinated but not masked herer >>>'))
     # number_of_both = int(input('please enter the the number of both Vaccinated and masked herer >>>'))
     # days = int(input('please enter the number of days of the simulation>>>'))
-    number_of_people = int(np)
-    number_of_only_masked = int(nom)
-    number_of_only_vaccinated = int(nov)
-    number_of_both = int(nob)
-    days = int(d)
-    number_of_unprotected = int(number_of_people)-int(number_of_only_masked) - int(number_of_only_vaccinated) - int(number_of_both)
-    day = []
-    people_inffected = []
-    unprotected_inffected = []
-    only_masked_inffected = []
-    only_vaccinated_inffected = []
-    masked_and_vaccinated_inffected = []
-    num_people_meet=20
-    # try:
-    #     number_of_only_masked+number_of_only_vaccinated+number_of_both<number_of_people
-    # except:
-    #     raise Exception('There has been an error in the system')
+    
+    number_of_people = int(np) #record input np as number_of_people veriable
+    number_of_only_masked = int(nom)#record input nom as number_of_only_masked veriable
+    number_of_only_vaccinated = int(nov)#record input nov as number_of_only_vaccinated veriable
+    number_of_both = int(nob)#record input nob as number_of_both veriable
+    days = int(d)#record input d as days veriable
+    number_of_unprotected = int(number_of_people)-int(number_of_only_masked) - int(number_of_only_vaccinated) - int(number_of_both)#calculated the number of people who is unprotected
+    day = []#defind a day list
+    people_inffected = []#defind a people_inffected list
+    unprotected_inffected = []#defind a unprotected_inffected list
+    only_masked_inffected = []#defind a only_masked_inffected list
+    only_vaccinated_inffected = []#defind a day list
+    masked_and_vaccinated_inffected = []#defind a only_vaccinated_inffected list
+    num_people_meet=20 # assumption, every person will meet 20 people every day with close contact
 
-    f = open('data/name.txt')
+    f = open('data/name.txt') #open txt file where stores 10000 names
 
-    list_of_name = []
-    for line in f:
+    list_of_name = [] # prepare the list_of_name to store the names
+    for line in f:#change the names into one word
         list_of_name.append(line.strip().replace(' ','_'))
     list_to_use = list_of_name[:number_of_people]
-
-    list_of_only_masked = list_to_use[0:number_of_only_masked]
+    '''
+    Assign names to each category of people, also it counts the people for us
+    '''
+    list_of_only_masked = list_to_use[0:number_of_only_masked] #
     list_of_only_vaccinated = list_to_use[number_of_only_masked:number_of_only_masked+number_of_only_vaccinated]
     list_of_both = list_to_use[number_of_only_masked+number_of_only_vaccinated : number_of_only_masked+number_of_only_vaccinated+number_of_both]
     list_of_unprotected = list_to_use[number_of_only_masked+number_of_only_vaccinated+number_of_both:number_of_people+1]
 
     class Virus():
+        '''defube the status of each person'''
         def __init__(self, name = '', masked = False, vaccinated = False, inffected = False):
             self.name = name
             self.masked = masked
             self.vaccinated = vaccinated
             self.inffected = inffected
+        '''show the status of each person by print'''
         def __str__(self):
             return f'name:{self.name}, mask:{self.masked}, vaccinated:{self.vaccinated}, inffected:{self.inffected}'
 
-    l = []
+    l = [] # make a list l to hold of all people
+    '''put all people into the list with assigned status and names, i is the names for each of the name list'''
     for i in list_of_only_masked:
         i = Virus(i,True,False,False)
         l.append(i)
@@ -84,10 +86,15 @@ def virus(np,nom,nov,nob,d):
 
     # Start the simulation
     result = ''
+    '''loop of every day'''
     for num1 in range(days):
+        '''loop of every person in each day'''
         for i in l:
+            '''loop of meeting 20 people every day, for every person met'''
             for num2 in range(num_people_meet):
+                '''randomly select a person to meet'''
                 person_met = random.choice(l) # need modification of not meeting one self.
+                '''according to each person met and the person who goes out, apply different inffection rate to calculate for the probability of inffection and apply it to the oop characterastics'''
                 if i.inffected == True and person_met.vaccinated == True:
                     prob = random.random()
                     if i.masked == True and person_met.masked == True:
@@ -144,11 +151,13 @@ def virus(np,nom,nov,nob,d):
                     elif i.masked == False and person_met.masked == False:
                         if prob < 0.9: #both not masked inffection rate
                             i.inffected = True
-        count1 = 0
-        count2 = 0
-        count3 = 0
-        count4 = 0
-        count5 = 0
+        
+        count1 = 0 #count of total inffection
+        count2 = 0 #count of unprotected peopple inffection
+        count3 = 0 #count of people wear mask only got inffected
+        count4 = 0 #cont of people vaccinated only got inffected
+        count5 = 0 #count of poeple vaccinated and masked got inffected
+        '''start the counting process'''
         for i in l:
             if i.inffected == True:
                 count1 = count1 + 1
@@ -164,6 +173,7 @@ def virus(np,nom,nov,nob,d):
         for i in l:
             if i.inffected == True and i.masked == True and i.vaccinated == True:
                 count5 = count5 + 1
+        '''store all counting result into the same veriable to return'''
         result += f'-----------------------------------------Day {num1 + 1}-----------------------------------------\n'
         result += f'{count1} number of people inffected out of {number_of_people} people\n'
         result += f'{count2-1} people out of the {number_of_unprotected} unprotected people are inffected\n'
@@ -171,22 +181,9 @@ def virus(np,nom,nov,nob,d):
         result += f'{count4} people out of the {number_of_only_vaccinated} vaccinated but not masked people are inffected\n'
         result += f'{count5} people out of the {number_of_both} both masked and vaccinated people are inffected\n'
         result += f'\n'
-        day.append(num1+1)
-        people_inffected.append(count1)
-        unprotected_inffected.append(count2-1)
-        only_masked_inffected.append(count3)
-        only_vaccinated_inffected.append(count4)
-        masked_and_vaccinated_inffected.append(count5)
     return result
 
-    # plt.plot(day, people_inffected, label = "Total Inffection")
-    # plt.plot(day, unprotected_inffected, label = "Unprotected People Inffected")
-    # plt.plot(day, only_masked_inffected, label = "Only Masked People Inffected")
-    # plt.plot(day, only_vaccinated_inffected, label = "Only Vaccinated People Inffected")
-    # plt.plot(day, masked_and_vaccinated_inffected, label = "Both Vaccinated and Masked People Inffected")
-    # plt.legend()
-    # plt.show()
-
+    ''' sample graphing work here
     data = {'Day': day,
             'Total_Inffection':people_inffected,
             'Unprotected_people_inffection':unprotected_inffected,
@@ -202,15 +199,4 @@ def virus(np,nom,nov,nob,d):
     fig.add_trace(go.Scatter(x=day,y=only_vaccinated_inffected,mode ='lines', name = 'Only Vaccinated people inffection'))
     fig.add_trace(go.Scatter(x=day,y=masked_and_vaccinated_inffected,mode ='lines', name = 'Both Masked and Vaccinated People inffection'))
     fig.show()
-
-    # import dash
-    # import dash_core_components as dcc
-    # import dash_html_components as html
-
-    # app = dash.Dash()
-    # app.layout = html.Div([
-    #     dcc.Graph(figure=fig)
-    # ])
-
-    # app.run_server(debug=True, use_reloader=False)  # Turn off reloader if inside Jupyter
-
+    '''
