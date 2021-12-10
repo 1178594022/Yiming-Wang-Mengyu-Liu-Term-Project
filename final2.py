@@ -222,8 +222,12 @@ def virus_plot(np,nom,nov,nob,d):
     
     '''ignore the uninportant error'''
     try:
+<<<<<<< Updated upstream
         '''save the animation to gif'''
         ani.save("templates/movie.gif",writer=writergif)
+=======
+        ani.save("static/people_photo/movie.gif",writer=writergif)
+>>>>>>> Stashed changes
     except Exception:
         pass
     
