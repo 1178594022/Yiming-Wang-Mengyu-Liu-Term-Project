@@ -22,7 +22,7 @@ a5 = 0
 
 def calculate():
     if request.method == "POST":    #use the request method post
-        '''set veriable a as the input from the user, make sure that they are in intager format'''
+        '''set veriable a as the input from the user, make sure that they are in integer format'''
         a = int(request.form["a"])
         b = int(request.form["b"])
         c = int(request.form["c"])
@@ -41,7 +41,7 @@ def calculate():
             return render_template(
                 "stop_result.html", #use the templet of HTML code in the templet folder named stop_form
                 e=e,
-                root_1=str(escape(virus(a,b,c,d,e))).replace('\n', '<br/>'),   # root_1 record the DAY BY DAY BREAK DOWN name
+                root_1=str(escape(virus(a,b,c,d,e))).replace('\n', '<br/>'),   # root_1 record the DAY BY DAY BREAK DOWN
                 user_image = full_filename
             )
         else:
