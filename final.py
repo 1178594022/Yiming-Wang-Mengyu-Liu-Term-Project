@@ -1,83 +1,98 @@
-from os import error
-import re
+
 import random
-import matplotlib.pyplot as plt
-import numpy as np
-from plotly.graph_objs import layout
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-import matplotlib
-import seaborn
 
 df = pd.DataFrame()
-def virus_plot(np,nom,nov,nob,d):
+
+
+def virus(np, nom, nov, nob, d):
+    """summary for virus
+
+    Args:
+        np ([int]): [Total number of people]
+        nom ([int]): [number of people only masked]
+        nov ([int]): [number of people only vaccinated]
+        nob ([int]): [number of people both masked and vaccinated]
+        d ([int]): [days of the simulation]
+
+    Returns:
+        [string]: [day by day breakdown of inffection]
+    """
     # number_of_people = int(input('please enter the number of people smaller than 10000>>>'))
     # number_of_only_masked = int(input('please enter the the number of only maked but not vaccinated herer >>>'))
     # number_of_only_vaccinated = int(input('please enter the the number of only Vaccinated but not masked herer >>>'))
     # number_of_both = int(input('please enter the the number of both Vaccinated and masked herer >>>'))
     # days = int(input('please enter the number of days of the simulation>>>'))
-    
-    number_of_people = int(np) #record input np as number_of_people veriable
-    number_of_only_masked = int(nom)#record input nom as number_of_only_masked veriable
-    number_of_only_vaccinated = int(nov)#record input nov as number_of_only_vaccinated veriable
-    number_of_both = int(nob)#record input nob as number_of_both veriable
-    days = int(d)#record input d as days veriable
-    number_of_unprotected = int(number_of_people)-int(number_of_only_masked) - int(number_of_only_vaccinated) - int(number_of_both)#calculated the number of people who is unprotected
-    day = []#defind a day list
-    people_inffected = []#defind a people_inffected list
-    unprotected_inffected = []#defind a unprotected_inffected list
-    only_masked_inffected = []#defind a only_masked_inffected list
-    only_vaccinated_inffected = []#defind a day list
-    masked_and_vaccinated_inffected = []#defind a only_vaccinated_inffected list
-    num_people_meet=20 # assumption, every person will meet 20 people every day with close contact
 
-    f = open('data/name.txt') #open txt file where stores 10000 names
+    number_of_people = int(np)  # record input np as number_of_people veriable
+    # record input nom as number_of_only_masked veriable
+    number_of_only_masked = int(nom)
+    # record input nov as number_of_only_vaccinated veriable
+    number_of_only_vaccinated = int(nov)
+    number_of_both = int(nob)  # record input nob as number_of_both veriable
+    days = int(d)  # record input d as days veriable
+    number_of_unprotected = int(number_of_people)-int(number_of_only_masked) - int(
+        number_of_only_vaccinated) - int(number_of_both)  # calculated the number of people who is unprotected
+    day = []  # defind a day list
+    people_inffected = []  # defind a people_inffected list
+    unprotected_inffected = []  # defind a unprotected_inffected list
+    only_masked_inffected = []  # defind a only_masked_inffected list
+    only_vaccinated_inffected = []  # defind a day list
+    masked_and_vaccinated_inffected = []  # defind a only_vaccinated_inffected list
+    # assumption, every person will meet 20 people every day with close contact
+    num_people_meet = 20
 
-    list_of_name = [] # prepare the list_of_name to store the names
-    for line in f:#change the names into one word
-        list_of_name.append(line.strip().replace(' ','_'))
+    f = open('data/name.txt')  # open txt file where stores 10000 names
+
+    list_of_name = []  # prepare the list_of_name to store the names
+    for line in f:  # change the names into one word
+        list_of_name.append(line.strip().replace(' ', '_'))
     list_to_use = list_of_name[:number_of_people]
     '''
     Assign names to each category of people, also it counts the people for us
     '''
-    list_of_only_masked = list_to_use[0:number_of_only_masked] #
-    list_of_only_vaccinated = list_to_use[number_of_only_masked:number_of_only_masked+number_of_only_vaccinated]
-    list_of_both = list_to_use[number_of_only_masked+number_of_only_vaccinated : number_of_only_masked+number_of_only_vaccinated+number_of_both]
-    list_of_unprotected = list_to_use[number_of_only_masked+number_of_only_vaccinated+number_of_both:number_of_people+1]
+    list_of_only_masked = list_to_use[0:number_of_only_masked]
+    list_of_only_vaccinated = list_to_use[number_of_only_masked:
+                                          number_of_only_masked+number_of_only_vaccinated]
+    list_of_both = list_to_use[number_of_only_masked +
+                               number_of_only_vaccinated: number_of_only_masked+number_of_only_vaccinated+number_of_both]
+    list_of_unprotected = list_to_use[number_of_only_masked +
+                                      number_of_only_vaccinated+number_of_both:number_of_people+1]
 
     class Virus():
         '''defube the status of each person'''
-        def __init__(self, name = '', masked = False, vaccinated = False, inffected = False):
+
+        def __init__(self, name='', masked=False, vaccinated=False, inffected=False):
             self.name = name
             self.masked = masked
             self.vaccinated = vaccinated
             self.inffected = inffected
         '''show the status of each person by print'''
+
         def __str__(self):
             return f'name:{self.name}, mask:{self.masked}, vaccinated:{self.vaccinated}, inffected:{self.inffected}'
 
-    l = [] # make a list l to hold of all people
+    l = []  # make a list l to hold of all people
     '''put all people into the list with assigned status and names, i is the names for each of the name list'''
     for i in list_of_only_masked:
-        i = Virus(i,True,False,False)
+        i = Virus(i, True, False, False)
         l.append(i)
         # print(i)
     for i in list_of_only_vaccinated:
-        i = Virus(i,False,True,False)
+        i = Virus(i, False, True, False)
         l.append(i)
         # print(i)
     for i in list_of_both:
-        i = Virus(i,True,True,False)
+        i = Virus(i, True, True, False)
         l.append(i)
         # print(i)
     for i in list_of_unprotected:
-        i = Virus(i,False,False,False)
+        i = Virus(i, False, False, False)
         l.append(i)
         # print(i)
 
-    #put in 1 person who is affected and unprotected
-    patient = Virus('original_inffection', False, False,True)
+    # put in 1 person who is affected and unprotected
+    patient = Virus('original_inffection', False, False, True)
     l.append(patient)
     # print(patient.inffected)
 
@@ -93,70 +108,71 @@ def virus_plot(np,nom,nov,nob,d):
             '''loop of meeting 20 people every day, for every person met'''
             for num2 in range(num_people_meet):
                 '''randomly select a person to meet'''
-                person_met = random.choice(l) # need modification of not meeting one self.
+                person_met = random.choice(
+                    l)  # need modification of not meeting one self.
                 '''according to each person met and the person who goes out, apply different inffection rate to calculate for the probability of inffection and apply it to the oop characterastics'''
                 if i.inffected == True and person_met.vaccinated == True:
                     prob = random.random()
                     if i.masked == True and person_met.masked == True:
-                        if prob < 0.015*0.0002: #both masked inffection rate*vaccine break through rate
+                        if prob < 0.015*0.0002:  # both masked inffection rate*vaccine break through rate
                             person_met.inffected = True
                     elif i.masked == True and person_met.masked == False:
-                        if prob < 0.05*0.0002: #patient masked inffection rate*vaccine break through rate
-                            person_met.inffected = True 
+                        if prob < 0.05*0.0002:  # patient masked inffection rate*vaccine break through rate
+                            person_met.inffected = True
                     elif i.masked == False and person_met.masked == True:
-                        if prob < 0.3*0.0002: #only healthy person masked inffection rate*vaccine break through rate
+                        if prob < 0.3*0.0002:  # only healthy person masked inffection rate*vaccine break through rate
                             person_met.inffected = True
                     elif i.masked == False and person_met.masked == False:
-                        if prob < 0.9*0.0002: #both not masked inffection rate*vaccine break through rate
-                            person_met.inffected = True                   
+                        if prob < 0.9*0.0002:  # both not masked inffection rate*vaccine break through rate
+                            person_met.inffected = True
                 elif i.inffected == True and person_met.vaccinated == False:
                     prob = random.random()
                     if i.masked == True and person_met.masked == True:
-                        if prob < 0.015: #both masked inffection rate
+                        if prob < 0.015:  # both masked inffection rate
                             person_met.inffected = True
                     elif i.masked == True and person_met.masked == False:
-                        if prob < 0.05: #patient masked inffection rate
-                            person_met.inffected = True 
+                        if prob < 0.05:  # patient masked inffection rate
+                            person_met.inffected = True
                     elif i.masked == False and person_met.masked == True:
-                        if prob < 0.3: #only healthy person masked inffection rate
+                        if prob < 0.3:  # only healthy person masked inffection rate
                             person_met.inffected = True
                     elif i.masked == False and person_met.masked == False:
-                        if prob < 0.9: #both not masked inffection rate
+                        if prob < 0.9:  # both not masked inffection rate
                             person_met.inffected = True
                 elif person_met.inffected == True and i.vaccinated == True:
                     prob = random.random()
                     if i.masked == True and person_met.masked == True:
-                        if prob < 0.015*0.0002: #both masked inffection rate*vaccine break through rate
+                        if prob < 0.015*0.0002:  # both masked inffection rate*vaccine break through rate
                             i.inffected = True
                     elif i.masked == True and person_met.masked == False:
-                        if prob < 0.3*0.0002: #patient masked inffection rate*vaccine break through rate
-                            i.inffected = True 
+                        if prob < 0.3*0.0002:  # patient masked inffection rate*vaccine break through rate
+                            i.inffected = True
                     elif i.masked == False and person_met.masked == True:
-                        if prob < 0.05*0.0002: #only healthy person masked inffection rate*vaccine break through rate
+                        if prob < 0.05*0.0002:  # only healthy person masked inffection rate*vaccine break through rate
                             i.inffected = True
                     elif i.masked == False and person_met.masked == False:
-                        if prob < 0.9*0.0002: #both not masked inffection rate*vaccine break through rate
-                            i.inffected = True                   
+                        if prob < 0.9*0.0002:  # both not masked inffection rate*vaccine break through rate
+                            i.inffected = True
                 elif person_met.inffected == True and person_met.vaccinated == False:
                     prob = random.random()
                     if i.masked == True and person_met.masked == True:
-                        if prob < 0.015: #both masked inffection rate
+                        if prob < 0.015:  # both masked inffection rate
                             i.inffected = True
                     elif i.masked == True and person_met.masked == False:
-                        if prob < 0.3: #patient masked inffection rate
-                            i.inffected = True 
+                        if prob < 0.3:  # patient masked inffection rate
+                            i.inffected = True
                     elif i.masked == False and person_met.masked == True:
-                        if prob < 0.05: #only healthy person masked inffection rate
+                        if prob < 0.05:  # only healthy person masked inffection rate
                             i.inffected = True
                     elif i.masked == False and person_met.masked == False:
-                        if prob < 0.9: #both not masked inffection rate
+                        if prob < 0.9:  # both not masked inffection rate
                             i.inffected = True
-        
-        count1 = 0 #count of total inffection
-        count2 = 0 #count of unprotected peopple inffection
-        count3 = 0 #count of people wear mask only got inffected
-        count4 = 0 #cont of people vaccinated only got inffected
-        count5 = 0 #count of poeple vaccinated and masked got inffected
+
+        count1 = 0  # count of total inffection
+        count2 = 0  # count of unprotected peopple inffection
+        count3 = 0  # count of people wear mask only got inffected
+        count4 = 0  # cont of people vaccinated only got inffected
+        count5 = 0  # count of poeple vaccinated and masked got inffected
         '''start the counting process'''
         for i in l:
             if i.inffected == True:
@@ -166,16 +182,16 @@ def virus_plot(np,nom,nov,nob,d):
                 count2 = count2 + 1
         for i in l:
             if i.inffected == True and i.masked == True and i.vaccinated == False:
-                count3 = count3 + 1   
+                count3 = count3 + 1
         for i in l:
             if i.inffected == True and i.masked == False and i.vaccinated == True:
-                count4 = count4 + 1  
+                count4 = count4 + 1
         for i in l:
             if i.inffected == True and i.masked == True and i.vaccinated == True:
                 count5 = count5 + 1
         '''store all counting result into the same veriable to return'''
         result += f'-----------------------------------------Day {num1 + 1}-----------------------------------------\n'
-        result += f'{count1} number of people inffected out of {number_of_people} people\n'
+        result += f'{count1-1} number of people inffected out of {number_of_people} people\n'
         result += f'{count2-1} people out of the {number_of_unprotected} unprotected people are inffected\n'
         result += f'{count3} people out of the {number_of_only_masked} masked but not vaccinated people are inffected\n'
         result += f'{count4} people out of the {number_of_only_vaccinated} vaccinated but not masked people are inffected\n'

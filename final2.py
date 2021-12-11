@@ -1,18 +1,10 @@
-from os import error
-import re
+
 import random
 import matplotlib.pyplot as plt
-import numpy as np
-from plotly.graph_objs import layout
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-import matplotlib
-import seaborn
 from matplotlib.animation import FuncAnimation
 from matplotlib.animation import PillowWriter  
-import ffmpeg
-import matplotlib.animation as animation
+
 
 def virus_plot(np,nom,nov,nob,d):
     # number_of_people = int(input('please enter the number of people smaller than 10000>>>'))
@@ -183,7 +175,6 @@ def virus_plot(np,nom,nov,nob,d):
         only_masked_inffected.append(count3)
         only_vaccinated_inffected.append(count4)
         masked_and_vaccinated_inffected.append(count5)
-
     '''make the dictionary'''
     data = {'Day': day,
             'Total_Inffection':people_inffected,
@@ -222,15 +213,8 @@ def virus_plot(np,nom,nov,nob,d):
     
     '''ignore the uninportant error'''
     try:
-<<<<<<< Updated upstream
         '''save the animation to gif'''
-        ani.save("templates/movie.gif",writer=writergif)
-=======
         ani.save("static/people_photo/movie.gif",writer=writergif)
->>>>>>> Stashed changes
     except Exception:
         pass
     
-    
-    
-virus_plot(100,10,10,80,300)
