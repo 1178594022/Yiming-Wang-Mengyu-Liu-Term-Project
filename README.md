@@ -4,7 +4,7 @@
 This is the Instruction of how to use the app of virus simulator.
 Please make sure that all of the steps are as followed:
 
-### Libraries needed: 
+### Libraries needed: (Use pip install ... to install libraries)
 - flask
 - os
 - pandas
